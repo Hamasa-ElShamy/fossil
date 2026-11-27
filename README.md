@@ -15,17 +15,21 @@ $ fossil ~/diffbrief --out course.html --md course.md
 wrote course.html: 12 commits -> 12 steps
 ```
 
-Step 4 of the course (from the Markdown output):
+Step 4 of the course (from the Markdown output, shortened):
 
 ```
-## 4. Test awareness: flag logic changes with no matching test change
-git checkout 13a13e0 · medium · +110 -5
+## 4. Test awareness: flag logic changes with no matching test change in the diff
+`git checkout 13a13e0` · medium · +110 -5 · 2026-11-26
+
 Try first, before reading the diff, write:
-- function ... in diffbrief.py
-Files: modified README.md, modified diffbrief.py, ...
+- `function _stem in diffbrief.py`
+- `function _test_awareness in diffbrief.py`
+- `function test_untested_change_flagged in tests/test_diffbrief.py`
+...
+Files: modified `README.md` (+2 -1), modified `diffbrief.py` (+72 -4), modified `tests/test_diffbrief.py` (+36 -0), ...
 ```
 
-This history also shows the weak spots: step 1 is the whole first commit (1196 added lines), and several steps are design polish rather than new features. The course is only as good as the history.
+This history also shows the weak spots: compiled `.pyc` files were committed in it and show up as binary files in several steps; step 1 is the whole first commit (1196 added lines), and several steps are design polish rather than new features. The course is only as good as the history.
 
 ## Install and use
 
