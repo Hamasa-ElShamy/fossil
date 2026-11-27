@@ -69,3 +69,10 @@ def test_export_default_omits_patches_and_secret(tmp_path):
     assert "FAKE-RETIRED-KEY" not in out.read_text(encoding="utf-8")
     cli.main([str(d), "--out", str(out), "--with-patches"])
     assert "FAKE-RETIRED-KEY" in out.read_text(encoding="utf-8")
+
+
+def test_bad_repo_gives_clean_error(tmp_path):
+    import subprocess, sys
+    for args in ([str(tmp_path)], [str(tmp_path / "nope")]):
+        r = subprocess.run([sys.executable, "-m", "fossil.cli", *args], capture_output=True, text=True)
+        assert r.returncode != 0 and "Traceback" not in r.stderr and "fossil:" in r.stderr
