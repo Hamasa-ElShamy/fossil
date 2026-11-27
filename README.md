@@ -1,10 +1,10 @@
 # Fossil
 
-[![tests](https://github.com/mohamed-elshamy-ai/fossil/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/fossil/actions/workflows/tests.yml)
+[![tests](https://github.com/Hamasa-ElShamy/fossil/actions/workflows/tests.yml/badge.svg)](https://github.com/Hamasa-ElShamy/fossil/actions/workflows/tests.yml)
 
 Rebuild a project from its git history. Fossil reads a repository's commits and writes a step-by-step course: each step is one commit (or a few tiny ones) with the files that changed, the functions and classes it adds, a "try writing these first" list, and the diff. You learn the project in the order it was built, not as a finished pile of files.
 
-**Site and finished example:** https://mohamed-elshamy-ai.github.io/fossil/ . You can also paste `git log` output into the page and build a course in your browser (Python via Pyodide, about 10 MB the first time from jsDelivr; nothing is uploaded).
+**Site and finished example:** https://hamasa-elshamy.github.io/fossil/ . You can also paste `git log` output into the page and build a course in your browser (Python via Pyodide, about 10 MB the first time from jsDelivr; nothing is uploaded).
 
 ![Fossil demo: finished example course, step navigation, Arabic labels, building a course from pasted git log](docs/demo.gif)
 
@@ -12,7 +12,7 @@ About 20 seconds, recorded from the live page. [MP4 version](docs/demo.mp4).
 
 ## Worked example
 
-Built from the history of my own [diffbrief](https://github.com/mohamed-elshamy-ai/diffbrief) repo: 12 commits became 12 steps. Files: [`demo/diffbrief-course.html`](demo/diffbrief-course.html), [`demo/diffbrief-course.md`](demo/diffbrief-course.md).
+Built from the history of my own [diffbrief](https://github.com/Hamasa-ElShamy/diffbrief) repo: 12 commits became 12 steps. Files: [`demo/diffbrief-course.html`](demo/diffbrief-course.html), [`demo/diffbrief-course.md`](demo/diffbrief-course.md).
 
 ```
 $ fossil ~/diffbrief --out course.html --md course.md
@@ -39,7 +39,7 @@ This history also shows the weak spots: compiled `.pyc` files were committed in 
 ## Install and use
 
 ```
-git clone https://github.com/mohamed-elshamy-ai/fossil && cd fossil
+git clone https://github.com/Hamasa-ElShamy/fossil && cd fossil
 pip install .
 fossil path/to/repo                       # writes course.html
 fossil path/to/repo --md course.md        # also Markdown
