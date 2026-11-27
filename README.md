@@ -43,6 +43,7 @@ git clone https://github.com/mohamed-elshamy-ai/fossil && cd fossil
 pip install .
 fossil path/to/repo                       # writes course.html
 fossil path/to/repo --md course.md        # also Markdown
+fossil path/to/repo --with-patches        # opt in: include code patches (read the warning below)
 fossil path/to/repo --max-steps 20 --rev v1.2.0
 ```
 
@@ -52,6 +53,15 @@ Standard library only, plus the `git` program. Python 3.9 or newer.
 |---|---|
 | Linux | Tested (Python 3.10, git 2.x). |
 | Windows / macOS | Should work, not tested. |
+
+## Before you share the output
+
+Git history keeps everything, including secrets and private code that were later deleted. The course is made locally and nothing is uploaded, but the file you get can be shared by mistake.
+
+- **Default export is file-list only.** Each step shows commit message, files changed and counts. No patch lines.
+- **`--with-patches` is opt-in.** It copies patch lines, including deleted ones (up to 400 lines per file), with **no redaction**. A retired key or private code in an old commit will be in the file. Review it before you share or publish it. The same warning is printed at the top of the generated page, and the web page has an unchecked "include code patches" box.
+- Fossil does not detect secrets. A secret that was ever committed should be treated as leaked and rotated.
+- Tested with an invented retired credential in a deleted line: absent from the default export, present with `--with-patches` (`tests/test_fossil.py`).
 
 ## How it works
 

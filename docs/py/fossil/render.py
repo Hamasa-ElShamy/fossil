@@ -36,12 +36,13 @@ def diff_html(f, cap=400):
     return "<pre class='d'>" + "".join(out) + "</pre>"
 
 
-def render_html(c, title="Course"):
+def render_html(c, title="Course", patches=False):
     P = []
     P.append(f"<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>{esc(title)}: rebuild course</title><style>{CSS}</style></head><body><div class='wrap'>")
     P.append("<nav aria-label='Steps'><button class='lang' id='lg' type='button'>عربي</button>")
     for s in c["steps"]: P.append(f"<a href='#s{s['n']}'>{s['n']}. {esc(s['title'][:48])}<br><small>{s['level']} · +{s['add']} −{s['dele']}</small></a>")
     P.append("</nav><main>")
+    P.append("<div class='note' style='border-color:#b3261e' data-ar='تحذير: الملف ده للقراءة على جهازك. " + ("فيه سطور الـ diff كاملة بما فيها السطور المحذوفة، وممكن تحتوي أسرار قديمة أو كود خاص. ماتشاركوش قبل ما تراجعه." if patches else "ده تصدير قائمة ملفات بس (من غير أكواد). لو عايز الـ diff استخدم --with-patches وماتشاركش الملف قبل المراجعة.") + "'><b>Warning:</b> " + ("this file contains full patch lines, including deleted ones. Old secrets or private code from history may be in it. Review before sharing." if patches else "file-list export: no code patches are included, so it is safer to share. Full patches are opt-in (--with-patches); review them before sharing.") + "</div>")
     P.append(f"<h1>{esc(title)}</h1><p data-ar='دورة لإعادة بناء المشروع خطوة خطوة من تاريخ git: {c['commits']} commit اتحولت لـ {len(c['steps'])} خطوة.'>A course to rebuild this project step by step from its git history: {c['commits']} commit{'s' if c['commits'] != 1 else ''} became {len(c['steps'])} step{'s' if len(c['steps']) != 1 else ''}.</p>")
     P.append("<div class='note' data-ar='العناوين جاية من رسائل الـ commit، والحاجات «الجديدة» من أنماط بسيطة على السطور المضافة. الأداة مش بتفهم الكود ومش بتشرح ليه حصل التغيير. لو الـ commit الأول ضخم، الخطوة الأولى هتبقى ضخمة.'>Titles come from commit messages and the \"new things\" from simple patterns on added lines. Nothing here understands the code or explains why a change was made. If the first commit is huge, step 1 is huge.</div>")
     for s in c["steps"]:
@@ -52,7 +53,7 @@ def render_html(c, title="Course"):
         if s["order"]:
             P.append("<p><b data-ar='ترتيب بناء مقترح (قواعد بسيطة: الأصغر الأول، الاختبارات والتوثيق في الآخر)'>Suggested build order (simple rule: smaller first, tests and docs last)</b></p><ol class='t'>" + "".join(f"<li><code>{esc(p)}</code></li>" for p in s["order"]) + "</ol>")
         for f in s["files"]:
-            P.append(f"<details><summary>{esc(f['status'])}: {esc(f['path'])} (+{f['add']} −{f['dele']})</summary>{diff_html(f)}</details>")
+            P.append(f"<details><summary>{esc(f['status'])}: {esc(f['path'])} (+{f['add']} −{f['dele']})</summary>{diff_html(f)}</details>" if patches else f"<p class='fl'><code>{esc(f['status'])}: {esc(f['path'])}</code> (+{f['add']} −{f['dele']})</p>")
         P.append("</section>")
     P.append("""</main></div><script>
 const T=new Map();document.querySelectorAll('[data-ar]').forEach(e=>T.set(e,e.textContent));let ar=false;

@@ -54,3 +54,18 @@ def test_cli(tmp_path):
 def test_merged_status_added_then_deleted(tmp_path):
     d = make_repo(tmp_path); c = core.course(core.git_log(str(d)))
     assert len(c["steps"]) == 1 and [f["status"] for f in c["steps"][0]["files"] if f["path"] == "app.py"] == ["added, later deleted"]
+
+
+def test_export_default_omits_patches_and_secret(tmp_path):
+    d = tmp_path / "s"; d.mkdir(); git(d, "init", "-q", "-b", "main")
+    (d / "cfg.py").write_text("API_KEY = 'FAKE-RETIRED-KEY-0000-INVENTED'\nx = 1\n"); git(d, "add", "-A"); git(d, "commit", "-qm", "Add config")
+    (d / "cfg.py").write_text("x = 1\n"); git(d, "commit", "-qam", "Remove key from config")
+    c = core.course(core.git_log(str(d)), tiny=0)
+    safe = render.render_html(c, "s")
+    assert "FAKE-RETIRED-KEY" not in safe and "cfg.py" in safe and "file-list export" in safe
+    full = render.render_html(c, "s", patches=True)
+    assert "FAKE-RETIRED-KEY" in full and "contains full patch lines" in full
+    out = tmp_path / "o.html"; cli.main([str(d), "--out", str(out)])
+    assert "FAKE-RETIRED-KEY" not in out.read_text(encoding="utf-8")
+    cli.main([str(d), "--out", str(out), "--with-patches"])
+    assert "FAKE-RETIRED-KEY" in out.read_text(encoding="utf-8")

@@ -36,6 +36,7 @@ footer{padding:36px 0 60px;color:var(--mut);font-size:.9rem}
 <p data-ar="شغّل الأمر ده جوه مستودعك والصق الناتج هنا. كله بيتحلل في متصفحك ومفيش حاجة بتترفع. أول مرة بينزّل محرك بايثون (حوالي 10 ميجا).">Run this inside your repository and paste the output below. It is parsed in your browser and nothing is uploaded. The first run downloads the Python engine (about 10 MB).</p>
 <pre id="cmd">git log --reverse --no-merges --date=short --find-renames --format="%x1e%H%x1f%an%x1f%ad%x1f%s%x1f%b%x1f" -p > history.txt</pre>
 <textarea id="in" spellcheck="false" aria-label="git log output" placeholder="paste the contents of history.txt here"></textarea>
+<p><label><input type="checkbox" id="pt"> <span data-ar="ضمّن سطور الكود (الـ diff) في الصفحة. تحذير: ممكن تحتوي أسرار قديمة من التاريخ، راجعها قبل ما تشارك.">Include code patches. Warning: history can contain old secrets, including in deleted lines. Review before sharing. Off = file list only.</span></label></p>
 <p><button class="btn" id="go" data-ar="ابني الدورة">Build the course</button><button class="btn alt" id="ex" data-ar="استخدم مثال صغير">Use a tiny example</button></p>
 <div id="st" role="status" aria-live="polite"></div>
 <iframe id="out" title="course" hidden></iframe>
@@ -74,8 +75,8 @@ onmessage=async e=>{
   try{
     if(!py){postMessage({type:'status',text:'Downloading the Python engine (about 10 MB, once)...'});await boot(e.data.base);}
     postMessage({type:'status',text:'Building the course...'});
-    py.FS.writeFile('/tmp/h.txt',e.data.text);
-    const out=py.runPython("from fossil import core, render\\nt=open('/tmp/h.txt',encoding='utf-8',errors='replace').read()\\nc=core.course(t)\\nrender.render_html(c,'Your project') if c['steps'] else ''");
+    py.FS.writeFile('/tmp/h.txt',e.data.text);py.globals.set('PT',!!e.data.patches);
+    const out=py.runPython("from fossil import core, render\\nt=open('/tmp/h.txt',encoding='utf-8',errors='replace').read()\\nc=core.course(t)\\nrender.render_html(c,'Your project',patches=PT) if c['steps'] else ''");
     postMessage({type:'done',html:out});
   }catch(err){postMessage({type:'error',text:String(err&&err.message||err)})}
 };`;
@@ -88,7 +89,7 @@ $('go').onclick=()=>{
       if(d.type==='error')$('st').textContent='Could not run: '+d.text;
       if(d.type==='done'){if(!d.html){$('st').textContent='No commits found in that text. Check that you used the exact command above.';}else{$('out').srcdoc=d.html;$('out').hidden=false;$('st').textContent='Done.';}$('go').disabled=false;}};}
   $('go').disabled=true;$('st').textContent='Starting...';
-  w.postMessage({text:$('in').value,base:new URL('.',location.href).href});
+  w.postMessage({patches:$('pt').checked,text:$('in').value,base:new URL('.',location.href).href});
 };
 if(location.hash==='#example'){$('ex').click();$('go').click();}
 </script></body></html>
