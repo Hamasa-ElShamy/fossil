@@ -6,6 +6,10 @@ Rebuild a project from its git history. Fossil reads a repository's commits and 
 
 **Site and finished example:** https://mohamed-elshamy-ai.github.io/fossil/ . You can also paste `git log` output into the page and build a course in your browser (Python via Pyodide, about 10 MB the first time from jsDelivr; nothing is uploaded).
 
+![Fossil demo: finished example course, step navigation, Arabic labels, building a course from pasted git log](docs/demo.gif)
+
+About 20 seconds, recorded from the live page. [MP4 version](docs/demo.mp4).
+
 ## Worked example
 
 Built from the history of my own [diffbrief](https://github.com/mohamed-elshamy-ai/diffbrief) repo: 12 commits became 12 steps. Files: [`demo/diffbrief-course.html`](demo/diffbrief-course.html), [`demo/diffbrief-course.md`](demo/diffbrief-course.md).
