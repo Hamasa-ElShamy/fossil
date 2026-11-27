@@ -13,7 +13,7 @@ h1{font:700 2rem/1.15 'Literata','Cairo',serif;margin:.2em 0}h2{font:700 1.35rem
 .note{background:#fff7e0;border-inline-start:5px solid #e0a82e;padding:10px 14px;margin:14px 0;font:.9rem system-ui,sans-serif}
 .step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:20px 0}
 .meta{font:.82rem system-ui,sans-serif;color:var(--mut);margin:4px 0 10px}.tag{display:inline-block;padding:1px 8px;border:1px solid var(--line);border-radius:99px;margin-inline-end:6px}
-code,pre{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}code{background:#f0ebdd;padding:1px 5px;border-radius:3px;font-size:.88em}
+code,pre{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}code{background:#f0ebdd;padding:1px 5px;border-radius:3px;font-size:.88em;overflow-wrap:anywhere}
 ul.t{font:.9rem system-ui,sans-serif;padding-inline-start:20px}
 details{margin:6px 0;border:1px solid var(--line);border-radius:var(--r)}summary{padding:10px 12px;min-height:44px;cursor:pointer;font:.85rem 'JetBrains Mono',monospace;direction:ltr;overflow-wrap:anywhere}
 pre.d{margin:0;padding:0;overflow:auto;font-size:.78rem;line-height:1.45;direction:ltr;text-align:left;max-height:420px}
