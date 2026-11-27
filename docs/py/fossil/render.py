@@ -42,7 +42,7 @@ def render_html(c, title="Course"):
     P.append("<nav aria-label='Steps'><button class='lang' id='lg' type='button'>عربي</button>")
     for s in c["steps"]: P.append(f"<a href='#s{s['n']}'>{s['n']}. {esc(s['title'][:48])}<br><small>{s['level']} · +{s['add']} −{s['dele']}</small></a>")
     P.append("</nav><main>")
-    P.append(f"<h1>{esc(title)}</h1><p data-ar='دورة لإعادة بناء المشروع خطوة خطوة من تاريخ git: {c['commits']} commit اتحولت لـ {len(c['steps'])} خطوة.'>A course to rebuild this project step by step from its git history: {c['commits']} commits became {len(c['steps'])} steps.</p>")
+    P.append(f"<h1>{esc(title)}</h1><p data-ar='دورة لإعادة بناء المشروع خطوة خطوة من تاريخ git: {c['commits']} commit اتحولت لـ {len(c['steps'])} خطوة.'>A course to rebuild this project step by step from its git history: {c['commits']} commit{'s' if c['commits'] != 1 else ''} became {len(c['steps'])} step{'s' if len(c['steps']) != 1 else ''}.</p>")
     P.append("<div class='note' data-ar='العناوين جاية من رسائل الـ commit، والحاجات «الجديدة» من أنماط بسيطة على السطور المضافة. الأداة مش بتفهم الكود ومش بتشرح ليه حصل التغيير. لو الـ commit الأول ضخم، الخطوة الأولى هتبقى ضخمة.'>Titles come from commit messages and the \"new things\" from simple patterns on added lines. Nothing here understands the code or explains why a change was made. If the first commit is huge, step 1 is huge.</div>")
     for s in c["steps"]:
         P.append(f"<section class='step' id='s{s['n']}'><h2>{s['n']}. {esc(s['title'])}</h2><div class='meta'><span class='tag'>{s['level']}</span><span class='tag'>+{s['add']} −{s['dele']}</span><span class='tag'>{esc(s['date'])}</span> <code>git checkout {esc(s['last'])}</code></div>")
@@ -62,7 +62,7 @@ document.getElementById('lg').onclick=()=>{ar=!ar;document.documentElement.lang=
 
 
 def render_md(c, title="Course"):
-    L = [f"# {title}: rebuild course", "", f"{c['commits']} commits became {len(c['steps'])} steps. Titles are commit messages; nothing here understands the code.", ""]
+    L = [f"# {title}: rebuild course", "", f"{c['commits']} commit{'s' if c['commits'] != 1 else ''} became {len(c['steps'])} step{'s' if len(c['steps']) != 1 else ''}. Titles are commit messages; nothing here understands the code.", ""]
     for s in c["steps"]:
         L += [f"## {s['n']}. {s['title']}", f"`git checkout {s['last']}` · {s['level']} · +{s['add']} -{s['dele']} · {s['date']}", ""]
         if s["body"]: L += [s["body"][:600], ""]
